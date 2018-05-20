@@ -33,7 +33,6 @@ class OpsWay_Warehouses_Adminhtml_AjaxController extends Mage_Adminhtml_Controll
         $emailInfo = Mage::getModel('core/email_info');
         $emailInfo->addTo($email, (string) $email);
         $mailer->addEmailInfo($emailInfo);
-        // Set all required params and send emails
         $mailer->setSender(array('email'=> Mage::getStoreConfig('trans_email/ident_custom1/email'), 'name'=> Mage::getStoreConfig('trans_email/ident_custom1/name')));
         $mailer->setReplyTo(Mage::getSingleton('admin/session')->getUser()->getEmail());
         $mailer->setStoreId($storeId);
@@ -176,8 +175,8 @@ class OpsWay_Warehouses_Adminhtml_AjaxController extends Mage_Adminhtml_Controll
             'recipient_address' => $order->getShippingAddress()->getFormated(),
             'created_at' => $order->getCreatedAt(),
 			'wh_sender' => $whSender,
-			'wh_recipient' => $whRecipient,
-			'wh_delivery_type' =>  $deliveryType,
+	//		'wh_recipient' => $whRecipient,
+	//		'wh_delivery_type' =>  $deliveryType,
         ];
 
         $storeId = Mage::app()->getStore('antoshka_ru')->getId();
@@ -192,10 +191,6 @@ class OpsWay_Warehouses_Adminhtml_AjaxController extends Mage_Adminhtml_Controll
 			$mailer->addEmailInfo($emailInfo2);
 		}
         $mailer->addEmailInfo($emailInfo);
-//        $mailer->setSender([
-//            'name' => Mage::getStoreConfig('trans_email/ident_custom1/name'),
-//            'email' => Mage::getStoreConfig('trans_email/ident_custom1/email')
-//        ]);
         $mailer->setSender(array('email'=> Mage::getStoreConfig('trans_email/ident_custom1/email'), 'name'=> Mage::getStoreConfig('trans_email/ident_custom1/name')));
         $mailer->setReplyTo(Mage::getSingleton('admin/session')->getUser()->getEmail());
         $mailer->setStoreId($storeId);
