@@ -16,42 +16,7 @@ class OpsWay_Warehouses_Adminhtml_AjaxController extends Mage_Adminhtml_Controll
         exit;
     }
 
-    public function sendDropShippingEmailForOrderAction()
-    {
-        $orderId = $this->getRequest()->getParam('order_id');
 
-        $order = Mage::getModel('sales/order')->load($orderId);
-        $storeId = Mage::app()->getStore()->getId();
-
-        $email = $_GET['email'];
-        if (!Zend_Validate::is($email, 'EmailAddress')) {
-            echo false;
-            die();
-        }
-        $templateId = 50;
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
-        $emailInfo->addTo($email, (string) $email);
-        $mailer->addEmailInfo($emailInfo);
-        $mailer->setSender(array('email'=> Mage::getStoreConfig('trans_email/ident_custom1/email'), 'name'=> Mage::getStoreConfig('trans_email/ident_custom1/name')));
-        $mailer->setReplyTo(Mage::getSingleton('admin/session')->getUser()->getEmail());
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-                'order' => $order,
-                'billing' => $order->getBillingAddress(),
-                'customer_name' => $email,
-                'customer_address' => $order->getCustomerAddress(),
-                'shipping_address' => $order->getBillingAddress()->format('html'),
-            )
-        );
-        try {
-            $mailer->send();
-            echo true;
-        } catch (Mage_Core_Exception $e) {
-            var_dump($e->getMessage());
-        }
-    }
 
     public function createDropShippingForOrderIdAction()
     {
